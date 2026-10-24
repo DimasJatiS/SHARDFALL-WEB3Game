@@ -1,6 +1,6 @@
 # Shardfall: fair-play battle royale on Monad
 
-A 5-minute isometric battle royale for 4–10 players in the browser. Players buy a ticket in MON. The ticket money sits in a smart contract, not with the organizer. The map is locked on-chain before the match starts, and the top 3 are paid automatically by the contract the moment the match ends.
+A 5-minute isometric battle royale for 3–10 players in the browser. Players buy a ticket in MON. The ticket money sits in a smart contract, not with the organizer. The map is locked on-chain before the match starts, and the top 3 are paid automatically by the contract the moment the match ends.
 
 > Built at **Monad Blitz Jogja 2026** (24 Oct 2026).
 
@@ -25,7 +25,7 @@ Gameplay runs on a normal real-time server (20 ticks/s). The blockchain does onl
 2. **Proves the map wasn't changed (commit-reveal).** When a match is created, the server commits `keccak256(seed)` on-chain *before anyone joins*. At the end it reveals the seed. The contract rejects settlement if the hash doesn't match. The results screen re-checks this against the chain and shows a **Verified** badge.
 3. **Pays the winners automatically.** `settleMatch` sends 5% to the treasury and splits the rest 60/25/15 between the top 3, in one transaction.
 
-One match = 3 kinds of on-chain transaction: `createMatch` (server) → `joinMatch` (each player, from their own wallet, live in the demo) → `settleMatch` (server). If a lobby never fills (fewer than 4 players after 2 min) or a match is never settled (15 min), each player can call `refund` and get their ticket back. Skins are cosmetic-only ERC-1155 tokens (`SkinShop`, 0.05 MON). There is no pay-to-win.
+One match = 3 kinds of on-chain transaction: `createMatch` (server) → `joinMatch` (each player, from their own wallet, live in the demo) → `settleMatch` (server). If a lobby never fills (fewer than 3 players after 2 min) or a match is never settled (15 min), each player can call `refund` and get their ticket back. Skins are cosmetic-only ERC-1155 tokens (`SkinShop`, 0.05 MON). There is no pay-to-win.
 
 ```
 Browser (React + Three.js + wagmi) ──input──▶ Game server (Colyseus, authoritative sim)
