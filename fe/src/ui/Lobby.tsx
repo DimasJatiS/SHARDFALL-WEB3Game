@@ -64,7 +64,7 @@ export default function Lobby({ onStart }: Props) {
   if (conn) {
     return (
       <div className="lobby-page">
-        <Brand />
+        <Brand onHome={() => conn.leave()} />
         <RankedRoom conn={conn} onLeave={() => { conn.leave(); setConn(null); }} onStart={onStart} />
       </div>
     );
@@ -126,10 +126,10 @@ export default function Lobby({ onStart }: Props) {
   );
 }
 
-function Brand() {
+function Brand({ onHome }: { onHome?: () => void }) {
   return (
     <header className="brand">
-      <a className="back-home" href="#/">← Beranda</a>
+      <a className="back-home" href="#/" onClick={onHome}>← Beranda</a>
       <h1 className="logo"><img src={assetUrl("ui/logo.webp")} alt="SHARDFALL" /></h1>
       <div className="tagline">Isometric battle royale · loot is score · prizes paid on Monad{DEMO && <span className="demo">DEMO MODE</span>}</div>
     </header>

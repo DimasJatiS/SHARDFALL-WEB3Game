@@ -205,7 +205,7 @@ h1.logo { margin: 0; }
 .quota-line .safe { color: var(--green); font-weight: 700; margin-left: 4px; }
 .quota.danger { border-color: rgba(255,74,90,0.45); }
 .quota.warn { animation: shake 0.4s infinite; border-color: var(--red); box-shadow: 0 0 24px rgba(255,74,90,0.45); }
-.leave-game { position: absolute; top: 126px; left: 16px; z-index: 2; }
+.leave-game { position: absolute; top: 126px; left: 16px; z-index: 2; display: flex; gap: 8px; }
 @keyframes shake { 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
 
 .vitals { position: absolute; left: 16px; bottom: 18px; width: 250px; display: flex; flex-direction: column; gap: 6px; }

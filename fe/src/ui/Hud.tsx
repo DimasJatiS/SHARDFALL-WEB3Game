@@ -78,6 +78,9 @@ export default function Hud({ snap, feed, map, selfId, practice, now, onUse, onL
       {/* Leave Game Logic */}
       <div className="leave-game">
         <button className="btn btn-secondary" onClick={onLeave}>Leave Game</button>
+        {/* Unmounting #/play leaves the match (see PlayArea cleanup in App.tsx). Set the hash
+            directly: navigate("home") is a no-op when the match was opened via /?practice (no hash). */}
+        <button className="btn ghost" onClick={() => { if (confirm("Keluar dari match dan kembali ke beranda?")) location.hash = "#/"; }}>← Beranda</button>
       </div>
 
       {/* Bottom left: vitals */}
