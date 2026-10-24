@@ -1,0 +1,70 @@
+FRAMES sprites/raider/unarmed/  16 file 64x64, skala 0.204
+FRAMES sprites/raider/sword/  16 file 64x64, skala 0.204
+FRAMES sprites/raider/staff/  16 file 64x64, skala 0.204
+FRAMES sprites/raider/bow/  16 file 64x64, skala 0.204
+OK  sprites/skins/knight.webp  64x64
+OK  sprites/skins/ember.webp  64x64
+OK  sprites/skins/verdant.webp  64x64
+OK  sprites/skins/void.webp  64x64
+OK  ui/portraits/knight.webp  128x128
+OK  ui/portraits/ember.webp  128x128
+OK  ui/portraits/verdant.webp  128x128
+OK  ui/portraits/void.webp  128x128
+FRAMES sprites/enemies/crawler/  12 file 64x64, skala 0.171
+FRAMES sprites/enemies/enforcer/  12 file 96x96, skala 0.327
+FRAMES sprites/enemies/titan/  10 file 192x192, skala 0.538
+OK  icons/items/sword.webp  32x32
+OK  icons/items/staff.webp  32x32
+OK  icons/items/bow.webp  32x32
+OK  icons/items/armor.webp  32x32
+OK  icons/items/heal.webp  32x32
+OK  icons/items/speed.webp  32x32
+OK  icons/items/maxhp.webp  32x32
+OK  icons/items/invuln.webp  32x32
+OK  icons/items/coin.webp  32x32
+OK  icons/buffs/immune.webp  32x32
+OK  icons/buffs/swift.webp  32x32
+OK  icons/buffs/double_hit.webp  32x32
+OK  icons/buffs/stunned.webp  32x32
+OK  icons/steps/loot.webp  32x32
+OK  icons/steps/quota.webp  32x32
+OK  icons/steps/fight.webp  32x32
+OK  icons/steps/paid.webp  32x32
+OK  world/chests/chest_wood.webp  64x64
+OK  world/chests/chest_iron.webp  64x64
+OK  world/chests/chest_boss.webp  96x96
+OK  world/chests/chest_wood_open.webp  64x64
+OK  world/chests/chest_iron_open.webp  64x64
+OK  world/chests/chest_boss_open.webp  96x96
+OK  world/traps/spike_off.webp  64x64
+OK  world/traps/spike_on.webp  64x64
+OK  world/traps/lava_pool.webp  64x64
+OK  world/props/barrel.webp  64x64
+OK  world/props/barrel_damaged.webp  64x64
+OK  world/props/tree_a.webp  64x96
+OK  world/props/tree_b.webp  64x96
+OK  world/props/pylon.webp  64x96
+OK  world/tiles/grass.webp  32x32
+OK  world/tiles/dirt.webp  32x32
+OK  world/tiles/stone.webp  32x32
+OK  world/tiles/sand.webp  32x32
+OK  world/tiles/water.webp  32x32
+OK  world/tiles/side_soil.webp  32x32
+OK  world/tiles/side_metal.webp  32x32
+OK  world/tiles/side_concrete.webp  32x32
+OK  vfx/slash.webp  128x128
+OK  vfx/hit.webp  128x128
+OK  vfx/cast_ring.webp  128x128
+OK  vfx/staff_impact.webp  128x128
+OK  vfx/parry.webp  128x128
+OK  vfx/stun.webp  128x128
+OK  vfx/slam.webp  128x128
+OK  vfx/chest_burst.webp  128x128
+OK  vfx/explosion.webp  128x128
+OK  vfx/zone_wall.webp  128x128
+OK  vfx/loot_beam.webp  128x128
+OK  vfx/immune_bubble.webp  128x128
+OK  ui/key_art.webp  1536x864
+OK  ui/lobby_bg.webp  1376x768
+OK  ui/logo_dark.webp  1459x658
+OK  ui/logo.webp  1459x658

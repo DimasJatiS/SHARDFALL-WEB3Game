@@ -1,0 +1,996 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-24T05:48:48Z",
+  "note": "Path relatif ke folder assetv2. Pixel art: pakai NearestFilter / image-rendering: pixelated.",
+  "sprites": {
+    "raider_unarmed": {
+      "dir": "sprites/raider/unarmed",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "pivot": [
+        32,
+        60
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/raider/unarmed/idle_01.webp",
+            "sprites/raider/unarmed/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "sprites/raider/unarmed/walk_01.webp",
+            "sprites/raider/unarmed/walk_02.webp",
+            "sprites/raider/unarmed/walk_03.webp",
+            "sprites/raider/unarmed/walk_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "sprites/raider/unarmed/attack_01.webp",
+            "sprites/raider/unarmed/attack_02.webp",
+            "sprites/raider/unarmed/attack_03.webp"
+          ],
+          "fps": 14,
+          "loop": false
+        },
+        "cast": {
+          "frames": [
+            "sprites/raider/unarmed/cast_01.webp",
+            "sprites/raider/unarmed/cast_02.webp"
+          ],
+          "fps": 8,
+          "loop": false
+        },
+        "defend": {
+          "frames": [
+            "sprites/raider/unarmed/defend_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/raider/unarmed/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/raider/unarmed/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/raider/unarmed/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "sprites/raider/unarmed/victory_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "raider_sword": {
+      "dir": "sprites/raider/sword",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "pivot": [
+        32,
+        60
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/raider/sword/idle_01.webp",
+            "sprites/raider/sword/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "sprites/raider/sword/walk_01.webp",
+            "sprites/raider/sword/walk_02.webp",
+            "sprites/raider/sword/walk_03.webp",
+            "sprites/raider/sword/walk_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "sprites/raider/sword/attack_01.webp",
+            "sprites/raider/sword/attack_02.webp",
+            "sprites/raider/sword/attack_03.webp"
+          ],
+          "fps": 14,
+          "loop": false
+        },
+        "cast": {
+          "frames": [
+            "sprites/raider/sword/cast_01.webp",
+            "sprites/raider/sword/cast_02.webp"
+          ],
+          "fps": 8,
+          "loop": false
+        },
+        "defend": {
+          "frames": [
+            "sprites/raider/sword/defend_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/raider/sword/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/raider/sword/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/raider/sword/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "sprites/raider/sword/victory_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "raider_staff": {
+      "dir": "sprites/raider/staff",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "pivot": [
+        32,
+        60
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/raider/staff/idle_01.webp",
+            "sprites/raider/staff/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "sprites/raider/staff/walk_01.webp",
+            "sprites/raider/staff/walk_02.webp",
+            "sprites/raider/staff/walk_03.webp",
+            "sprites/raider/staff/walk_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "sprites/raider/staff/attack_01.webp",
+            "sprites/raider/staff/attack_02.webp",
+            "sprites/raider/staff/attack_03.webp"
+          ],
+          "fps": 14,
+          "loop": false
+        },
+        "cast": {
+          "frames": [
+            "sprites/raider/staff/cast_01.webp",
+            "sprites/raider/staff/cast_02.webp"
+          ],
+          "fps": 8,
+          "loop": false
+        },
+        "defend": {
+          "frames": [
+            "sprites/raider/staff/defend_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/raider/staff/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/raider/staff/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/raider/staff/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "sprites/raider/staff/victory_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "raider_bow": {
+      "dir": "sprites/raider/bow",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "pivot": [
+        32,
+        60
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/raider/bow/idle_01.webp",
+            "sprites/raider/bow/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "sprites/raider/bow/walk_01.webp",
+            "sprites/raider/bow/walk_02.webp",
+            "sprites/raider/bow/walk_03.webp",
+            "sprites/raider/bow/walk_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "sprites/raider/bow/attack_01.webp",
+            "sprites/raider/bow/attack_02.webp",
+            "sprites/raider/bow/attack_03.webp"
+          ],
+          "fps": 14,
+          "loop": false
+        },
+        "cast": {
+          "frames": [
+            "sprites/raider/bow/cast_01.webp",
+            "sprites/raider/bow/cast_02.webp"
+          ],
+          "fps": 8,
+          "loop": false
+        },
+        "defend": {
+          "frames": [
+            "sprites/raider/bow/defend_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/raider/bow/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/raider/bow/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/raider/bow/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "sprites/raider/bow/victory_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "crawler": {
+      "dir": "sprites/enemies/crawler",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "pivot": [
+        32,
+        60
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/enemies/crawler/idle_01.webp",
+            "sprites/enemies/crawler/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "sprites/enemies/crawler/move_01.webp",
+            "sprites/enemies/crawler/move_02.webp",
+            "sprites/enemies/crawler/move_03.webp",
+            "sprites/enemies/crawler/move_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "windup": {
+          "frames": [
+            "sprites/enemies/crawler/windup_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "attack": {
+          "frames": [
+            "sprites/enemies/crawler/attack_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "recover": {
+          "frames": [
+            "sprites/enemies/crawler/recover_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/enemies/crawler/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/enemies/crawler/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/enemies/crawler/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "enforcer": {
+      "dir": "sprites/enemies/enforcer",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "pivot": [
+        48,
+        92
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/enemies/enforcer/idle_01.webp",
+            "sprites/enemies/enforcer/idle_02.webp"
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "move": {
+          "frames": [
+            "sprites/enemies/enforcer/move_01.webp",
+            "sprites/enemies/enforcer/move_02.webp",
+            "sprites/enemies/enforcer/move_03.webp",
+            "sprites/enemies/enforcer/move_04.webp"
+          ],
+          "fps": 10,
+          "loop": true
+        },
+        "windup": {
+          "frames": [
+            "sprites/enemies/enforcer/windup_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "attack": {
+          "frames": [
+            "sprites/enemies/enforcer/attack_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "recover": {
+          "frames": [
+            "sprites/enemies/enforcer/recover_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/enemies/enforcer/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hit": {
+          "frames": [
+            "sprites/enemies/enforcer/hit_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/enemies/enforcer/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    },
+    "titan": {
+      "dir": "sprites/enemies/titan",
+      "frameWidth": 192,
+      "frameHeight": 192,
+      "pivot": [
+        96,
+        186
+      ],
+      "anims": {
+        "idle": {
+          "frames": [
+            "sprites/enemies/titan/idle_01.webp",
+            "sprites/enemies/titan/idle_02.webp"
+          ],
+          "fps": 3,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "sprites/enemies/titan/walk_01.webp",
+            "sprites/enemies/titan/walk_02.webp",
+            "sprites/enemies/titan/walk_03.webp"
+          ],
+          "fps": 6,
+          "loop": true
+        },
+        "windup": {
+          "frames": [
+            "sprites/enemies/titan/windup_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "slam": {
+          "frames": [
+            "sprites/enemies/titan/slam_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "recover": {
+          "frames": [
+            "sprites/enemies/titan/recover_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "stun": {
+          "frames": [
+            "sprites/enemies/titan/stun_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "dead": {
+          "frames": [
+            "sprites/enemies/titan/dead_01.webp"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      }
+    }
+  },
+  "images": {
+    "sprites": {
+      "skins": {
+        "knight": {
+          "pivot": [
+            32,
+            60
+          ],
+          "file": "sprites/skins/knight.webp",
+          "width": 64,
+          "height": 64
+        },
+        "ember": {
+          "pivot": [
+            32,
+            60
+          ],
+          "file": "sprites/skins/ember.webp",
+          "width": 64,
+          "height": 64
+        },
+        "verdant": {
+          "pivot": [
+            32,
+            60
+          ],
+          "file": "sprites/skins/verdant.webp",
+          "width": 64,
+          "height": 64
+        },
+        "void": {
+          "pivot": [
+            32,
+            60
+          ],
+          "file": "sprites/skins/void.webp",
+          "width": 64,
+          "height": 64
+        }
+      }
+    },
+    "ui": {
+      "portraits": {
+        "knight": {
+          "pivot": [
+            64,
+            126
+          ],
+          "file": "ui/portraits/knight.webp",
+          "width": 128,
+          "height": 128
+        },
+        "ember": {
+          "pivot": [
+            64,
+            126
+          ],
+          "file": "ui/portraits/ember.webp",
+          "width": 128,
+          "height": 128
+        },
+        "verdant": {
+          "pivot": [
+            64,
+            126
+          ],
+          "file": "ui/portraits/verdant.webp",
+          "width": 128,
+          "height": 128
+        },
+        "void": {
+          "pivot": [
+            64,
+            126
+          ],
+          "file": "ui/portraits/void.webp",
+          "width": 128,
+          "height": 128
+        }
+      },
+      "brand": {
+        "key_art": {
+          "file": "ui/key_art.webp",
+          "width": 1536,
+          "height": 864
+        },
+        "lobby_bg": {
+          "file": "ui/lobby_bg.webp",
+          "width": 1376,
+          "height": 768
+        },
+        "logo_dark": {
+          "file": "ui/logo_dark.webp",
+          "width": 1459,
+          "height": 658
+        },
+        "logo": {
+          "file": "ui/logo.webp",
+          "width": 1459,
+          "height": 658
+        }
+      }
+    },
+    "icons": {
+      "items": {
+        "sword": {
+          "hd": "icons/items/sword@2x.webp",
+          "file": "icons/items/sword.webp",
+          "width": 32,
+          "height": 32
+        },
+        "staff": {
+          "hd": "icons/items/staff@2x.webp",
+          "file": "icons/items/staff.webp",
+          "width": 32,
+          "height": 32
+        },
+        "bow": {
+          "hd": "icons/items/bow@2x.webp",
+          "file": "icons/items/bow.webp",
+          "width": 32,
+          "height": 32
+        },
+        "armor": {
+          "hd": "icons/items/armor@2x.webp",
+          "file": "icons/items/armor.webp",
+          "width": 32,
+          "height": 32
+        },
+        "heal": {
+          "hd": "icons/items/heal@2x.webp",
+          "file": "icons/items/heal.webp",
+          "width": 32,
+          "height": 32
+        },
+        "speed": {
+          "hd": "icons/items/speed@2x.webp",
+          "file": "icons/items/speed.webp",
+          "width": 32,
+          "height": 32
+        },
+        "maxhp": {
+          "hd": "icons/items/maxhp@2x.webp",
+          "file": "icons/items/maxhp.webp",
+          "width": 32,
+          "height": 32
+        },
+        "invuln": {
+          "hd": "icons/items/invuln@2x.webp",
+          "file": "icons/items/invuln.webp",
+          "width": 32,
+          "height": 32
+        },
+        "coin": {
+          "hd": "icons/items/coin@2x.webp",
+          "file": "icons/items/coin.webp",
+          "width": 32,
+          "height": 32
+        }
+      },
+      "buffs": {
+        "immune": {
+          "hd": "icons/buffs/immune@2x.webp",
+          "file": "icons/buffs/immune.webp",
+          "width": 32,
+          "height": 32
+        },
+        "swift": {
+          "hd": "icons/buffs/swift@2x.webp",
+          "file": "icons/buffs/swift.webp",
+          "width": 32,
+          "height": 32
+        },
+        "double_hit": {
+          "hd": "icons/buffs/double_hit@2x.webp",
+          "file": "icons/buffs/double_hit.webp",
+          "width": 32,
+          "height": 32
+        },
+        "stunned": {
+          "hd": "icons/buffs/stunned@2x.webp",
+          "file": "icons/buffs/stunned.webp",
+          "width": 32,
+          "height": 32
+        }
+      },
+      "steps": {
+        "loot": {
+          "hd": "icons/steps/loot@2x.webp",
+          "file": "icons/steps/loot.webp",
+          "width": 32,
+          "height": 32
+        },
+        "quota": {
+          "hd": "icons/steps/quota@2x.webp",
+          "file": "icons/steps/quota.webp",
+          "width": 32,
+          "height": 32
+        },
+        "fight": {
+          "hd": "icons/steps/fight@2x.webp",
+          "file": "icons/steps/fight.webp",
+          "width": 32,
+          "height": 32
+        },
+        "paid": {
+          "hd": "icons/steps/paid@2x.webp",
+          "file": "icons/steps/paid.webp",
+          "width": 32,
+          "height": 32
+        }
+      }
+    },
+    "world": {
+      "chests": {
+        "chest_wood": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/chests/chest_wood.webp",
+          "width": 64,
+          "height": 64
+        },
+        "chest_iron": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/chests/chest_iron.webp",
+          "width": 64,
+          "height": 64
+        },
+        "chest_boss": {
+          "pivot": [
+            48,
+            94
+          ],
+          "file": "world/chests/chest_boss.webp",
+          "width": 96,
+          "height": 96
+        },
+        "chest_wood_open": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/chests/chest_wood_open.webp",
+          "width": 64,
+          "height": 64
+        },
+        "chest_iron_open": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/chests/chest_iron_open.webp",
+          "width": 64,
+          "height": 64
+        },
+        "chest_boss_open": {
+          "pivot": [
+            48,
+            94
+          ],
+          "file": "world/chests/chest_boss_open.webp",
+          "width": 96,
+          "height": 96
+        }
+      },
+      "traps": {
+        "spike_off": {
+          "file": "world/traps/spike_off.webp",
+          "width": 64,
+          "height": 64
+        },
+        "spike_on": {
+          "file": "world/traps/spike_on.webp",
+          "width": 64,
+          "height": 64
+        },
+        "lava_pool": {
+          "file": "world/traps/lava_pool.webp",
+          "width": 64,
+          "height": 64
+        }
+      },
+      "props": {
+        "barrel": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/props/barrel.webp",
+          "width": 64,
+          "height": 64
+        },
+        "barrel_damaged": {
+          "pivot": [
+            32,
+            62
+          ],
+          "file": "world/props/barrel_damaged.webp",
+          "width": 64,
+          "height": 64
+        },
+        "tree_a": {
+          "pivot": [
+            32,
+            94
+          ],
+          "file": "world/props/tree_a.webp",
+          "width": 64,
+          "height": 96
+        },
+        "tree_b": {
+          "pivot": [
+            32,
+            94
+          ],
+          "file": "world/props/tree_b.webp",
+          "width": 64,
+          "height": 96
+        },
+        "pylon": {
+          "pivot": [
+            32,
+            94
+          ],
+          "file": "world/props/pylon.webp",
+          "width": 64,
+          "height": 96
+        }
+      },
+      "tiles": {
+        "grass": {
+          "hd": "world/tiles/grass@2x.webp",
+          "file": "world/tiles/grass.webp",
+          "width": 32,
+          "height": 32
+        },
+        "dirt": {
+          "hd": "world/tiles/dirt@2x.webp",
+          "file": "world/tiles/dirt.webp",
+          "width": 32,
+          "height": 32
+        },
+        "stone": {
+          "hd": "world/tiles/stone@2x.webp",
+          "file": "world/tiles/stone.webp",
+          "width": 32,
+          "height": 32
+        },
+        "sand": {
+          "hd": "world/tiles/sand@2x.webp",
+          "file": "world/tiles/sand.webp",
+          "width": 32,
+          "height": 32
+        },
+        "water": {
+          "hd": "world/tiles/water@2x.webp",
+          "file": "world/tiles/water.webp",
+          "width": 32,
+          "height": 32
+        },
+        "side_soil": {
+          "hd": "world/tiles/side_soil@2x.webp",
+          "file": "world/tiles/side_soil.webp",
+          "width": 32,
+          "height": 32
+        },
+        "side_metal": {
+          "hd": "world/tiles/side_metal@2x.webp",
+          "file": "world/tiles/side_metal.webp",
+          "width": 32,
+          "height": 32
+        },
+        "side_concrete": {
+          "hd": "world/tiles/side_concrete@2x.webp",
+          "file": "world/tiles/side_concrete.webp",
+          "width": 32,
+          "height": 32
+        }
+      }
+    },
+    "vfx": {
+      "slash": {
+        "file": "vfx/slash.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "hit": {
+        "file": "vfx/hit.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "cast_ring": {
+        "file": "vfx/cast_ring.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "staff_impact": {
+        "file": "vfx/staff_impact.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "parry": {
+        "file": "vfx/parry.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "stun": {
+        "file": "vfx/stun.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "slam": {
+        "file": "vfx/slam.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "chest_burst": {
+        "file": "vfx/chest_burst.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "explosion": {
+        "file": "vfx/explosion.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "zone_wall": {
+        "file": "vfx/zone_wall.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "loot_beam": {
+        "file": "vfx/loot_beam.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      },
+      "immune_bubble": {
+        "file": "vfx/immune_bubble.webp",
+        "width": 128,
+        "height": 128,
+        "blend": "additive (opsional; latar sudah transparan)"
+      }
+    }
+  }
+}
