@@ -1,36 +1,28 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { Suspense, lazy, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ESCROW, EXPLORER, FAUCET, explorerAddress, explorerTx } from "../config";
 import { computePrizes } from "../game/net";
 import { GAME, ITEM_DESC, ITEM_NAMES } from "../shared/config";
 import type { ItemKind } from "../shared/types";
-import { AccountMenu, ConnectWalletModal } from "./ConnectWallet";
+import { useSite } from "../site/context";
+import { consumeAnchor, navigate, scrollToAnchor as scrollTo } from "../site/router";
+import { mon, useWalletStatus } from "../site/wallet";
 import Leaderboard from "./Leaderboard";
 import { CONTROLS, FAQ, OPEN_MATCHES, PORTRAITS, ROADMAP, SPONSORS, STEPS, asset, portraitUrl } from "./data";
-import "./landing.css";
-import { mon, useWalletStatus } from "./wallet";
 
-interface Props {
-  /** Go to the existing lobby (wallet, ranked, practice). */
-  onPlay: () => void;
-}
-
-const NAV = [
-  { id: "cara-main", label: "Cara Main" },
-  { id: "kontrol", label: "Kontrol" },
-  { id: "fair-play", label: "Fair Play" },
-  { id: "leaderboard", label: "Leaderboard" },
-  { id: "skin", label: "Skin Shop" },
-  { id: "faq", label: "FAQ" },
-];
+// three.js + r3f only load when the hero mounts; the falling CSS shards show meanwhile.
+const HeroCrystals = lazy(() => import("./HeroCrystals"));
 
 const TICKET = GAME.economy.ticketMon.replace(".", ",");
+/** "5 menit" / "90 detik" (DEMO mode shortens matches). */
+const duration = (s: number) => (s % 60 === 0 ? `${s / 60} menit` : `${s} detik`);
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
-const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-export default function Landing({ onPlay }: Props) {
-  const { isConnected, onChain, enough } = useWalletStatus();
-  const [modal, setModal] = useState<null | { forPlay: boolean }>(null);
-  const [toast, setToast] = useState<string | null>(null);
+export default function Landing() {
+  const { isConnected } = useWalletStatus();
+  const site = useSite();
+
+  // Arrived from another page's "Cara Main" / "FAQ" link: jump to that section.
+  useEffect(() => { consumeAnchor(); }, []);
 
   // Reveal sections as they scroll into view.
   useEffect(() => {
@@ -49,28 +41,15 @@ export default function Landing({ onPlay }: Props) {
     return () => io.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2600);
-    return () => clearTimeout(t);
-  }, [toast]);
-
-  const join = () => (onChain && enough ? onPlay() : setModal({ forPlay: true }));
-  const soon = () => setToast("Halaman Rewards & Redeem segera hadir (Fase 1).");
+  const join = site.join;
 
   return (
-    <div className="lp">
-      <Navbar
-        connected={isConnected}
-        onConnect={() => setModal({ forPlay: false })}
-        onToast={setToast}
-      />
-
-      <Hero onJoin={join} onPractice={onPlay} />
+    <>
+      <Hero onJoin={join} onPractice={site.play} />
 
       <section className="lp-band alt">
         <div className="lp-wrap">
-          <Casual onRewards={soon} />
+          <Casual />
           <OpenMatches onJoin={join} />
         </div>
       </section>
@@ -118,7 +97,7 @@ export default function Landing({ onPlay }: Props) {
           <ZoneDiagram />
           <div>
             <Eyebrow>Zona</Eyebrow>
-            <h2>{clock(GAME.matchSeconds).replace(":00", "")} menit, 4 fase, zona terus menyusut</h2>
+            <h2>{duration(GAME.matchSeconds)}, 4 fase, zona terus menyusut</h2>
             <ZoneTable />
             <p className="lp-note">Kuota menyesuaikan jumlah pemain. HUD menyala merah 10 detik sebelum fase habis jika coin di bawah kuota.</p>
           </div>
@@ -172,7 +151,7 @@ export default function Landing({ onPlay }: Props) {
                 {i === 0 ? (
                   <span className="lp-dim">Default · dimiliki</span>
                 ) : (
-                  <button className="lp-btn block" onClick={onPlay}>Beli {GAME.economy.skinPriceMon.replace(".", ",")} MON</button>
+                  <button className="lp-btn block" onClick={site.play}>Beli {GAME.economy.skinPriceMon.replace(".", ",")} MON</button>
                 )}
               </div>
             ))}
@@ -214,38 +193,13 @@ export default function Landing({ onPlay }: Props) {
         <div className="lp-wrap">
           <h2>Siap masuk zona?</h2>
           <div className="lp-actions">
-            {!isConnected && <button className="lp-btn outline" onClick={() => setModal({ forPlay: false })}>Connect Wallet</button>}
+            {!isConnected && <button className="lp-btn outline" onClick={() => site.openWallet(false)}>Connect Wallet</button>}
             <button className="lp-btn primary" onClick={join}>Main Sekarang</button>
           </div>
         </div>
       </section>
 
-      <footer className="lp-footer">
-        <div className="lp-wrap">
-          <div>
-            <img className="lp-footer-logo" src={asset("ui/logo.webp")} alt="SHARDFALL" />
-            <p>Monad Blitz Jogja Vol. 2</p>
-            <p className="lp-dim">Testnet: tanpa nilai uang nyata.</p>
-          </div>
-          <nav>
-            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="#roadmap" onClick={(e) => { e.preventDefault(); soon(); }}>Sponsor</a>
-            <a href={FAUCET} target="_blank" rel="noreferrer">Faucet</a>
-            <a href={ESCROW ? explorerAddress(ESCROW) : EXPLORER} target="_blank" rel="noreferrer">Contract</a>
-            <a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo("faq"); }}>FAQ</a>
-          </nav>
-        </div>
-      </footer>
-
-      {modal && (
-        <ConnectWalletModal
-          forPlay={modal.forPlay}
-          onClose={() => setModal(null)}
-          onPlay={() => { setModal(null); onPlay(); }}
-        />
-      )}
-      {toast && <div className="lp-toast" role="status">{toast}</div>}
-    </div>
+    </>
   );
 }
 
@@ -253,50 +207,16 @@ function Eyebrow({ children }: { children: ReactNode }) {
   return <span className="lp-eyebrow">{children}</span>;
 }
 
-function Navbar({ connected, onConnect, onToast }: { connected: boolean; onConnect: () => void; onToast: (m: string) => void }) {
-  const [scrolled, setScrolled] = useState(() => window.scrollY > 24);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const go = (id: string) => { setOpen(false); scrollTo(id); };
-
-  return (
-    <header className={`lp-nav${scrolled ? " scrolled" : ""}${open ? " open" : ""}`}>
-      <div className="lp-wrap">
-        <a className="lp-brand" href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-          <img src={asset("ui/logo.webp")} alt="SHARDFALL" />
-        </a>
-        <nav className="lp-links">
-          {NAV.map((n) => (
-            <a key={n.id} href={`#${n.id}`} onClick={(e) => { e.preventDefault(); go(n.id); }}>{n.label}</a>
-          ))}
-          <a href="#rewards" onClick={(e) => { e.preventDefault(); setOpen(false); onToast("Halaman Rewards & Redeem segera hadir (Fase 1)."); }}>Rewards</a>
-        </nav>
-        <div className="lp-nav-right">
-          <span className="lp-chain"><i />Monad Testnet</span>
-          {connected ? <AccountMenu onNavigate={go} onToast={onToast} /> : <button className="lp-btn primary sm" onClick={onConnect}>Connect Wallet</button>}
-          <button className="lp-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}><span /><span /><span /></button>
-        </div>
-      </div>
-    </header>
-  );
-}
-
 function Hero({ onJoin, onPractice }: { onJoin: () => void; onPractice: () => void }) {
   return (
     <section className="lp-hero">
       <div className="lp-hero-bg" style={{ backgroundImage: `url(${asset("ui/lobby_bg.webp")})` }} />
-      <div className="lp-shards" aria-hidden>
-        {[0, 1, 2, 3, 4, 5].map((i) => <i key={i} />)}
-      </div>
+      <Suspense fallback={<FallingShards />}>
+        <HeroCrystals />
+      </Suspense>
       <div className="lp-wrap lp-hero-grid">
         <div className="lp-hero-copy">
-          <span className="lp-mono">Battle royale {clock(GAME.matchSeconds).replace(":00", "")} menit · {GAME.players.min}–{GAME.players.max} pemain · di browser</span>
+          <span className="lp-mono">Battle royale {duration(GAME.matchSeconds)} · {GAME.players.min}–{GAME.players.max} pemain · di browser</span>
           <h1>Brawl Stars ketemu <span>zona PUBG.</span></h1>
           <p>Uangmu dipegang smart contract, map dikunci sebelum match, hadiah cair dalam satu detik.</p>
           <div className="lp-actions">
@@ -321,7 +241,16 @@ function Hero({ onJoin, onPractice }: { onJoin: () => void; onPractice: () => vo
   );
 }
 
-function Casual({ onRewards }: { onRewards: () => void }) {
+function FallingShards() {
+  return (
+    <div className="lp-shards" aria-hidden>
+      {[0, 1, 2, 3, 4, 5].map((i) => <i key={i} />)}
+    </div>
+  );
+}
+
+function Casual() {
+  const toRewards = (tab?: string) => navigate("rewards", tab);
   return (
     <div className="lp-casual reveal">
       <div>
@@ -329,8 +258,8 @@ function Casual({ onRewards }: { onRewards: () => void }) {
         <h2>Main gratis, kumpulkan Raider Points, tukar voucher sponsor</h2>
         <p className="lp-dim">Poin tidak bisa dijual atau dipindah. Klaim voucher dicatat on-chain, jadi tidak bisa dipakai dua kali.</p>
         <div className="lp-actions">
-          <button className="lp-btn primary" onClick={onRewards}>Buka Rewards & Redeem</button>
-          <button className="lp-btn" onClick={onRewards}>Punya kode? Redeem</button>
+          <button className="lp-btn primary" onClick={() => toRewards()}>Buka Rewards & Redeem</button>
+          <button className="lp-btn" onClick={() => toRewards("redeem")}>Punya kode? Redeem</button>
         </div>
       </div>
       <div className="lp-vouchers">

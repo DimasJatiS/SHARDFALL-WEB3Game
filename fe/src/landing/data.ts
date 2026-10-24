@@ -6,9 +6,6 @@ export const asset = (p: string) => `/assetv2/${p}`;
 export const PORTRAITS = ["knight", "ember", "verdant", "void"] as const;
 export const portraitUrl = (skin: number) => asset(`ui/portraits/${PORTRAITS[skin % PORTRAITS.length]}.webp`);
 
-/** Mock: Raider Points of the connected wallet (Fase 1, casual mode). */
-export const MOCK_RP = 320;
-
 export interface OpenMatch {
   id: string;
   players: number;

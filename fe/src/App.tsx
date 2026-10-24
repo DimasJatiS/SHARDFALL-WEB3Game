@@ -1,49 +1,81 @@
-import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Game from "./Game";
-import Landing from "./landing/Landing";
 import type { GameSource } from "./game/net";
+import Landing from "./landing/Landing";
+import Rewards from "./rewards/Rewards";
 import type { MatchResult } from "./shared/types";
+import SiteLayout from "./site/SiteLayout";
+import { navigate, useRoute } from "./site/router";
 import Lobby from "./ui/Lobby";
 import Results from "./ui/Results";
 
-type Screen =
-  | { name: "landing" }
+type PlayScreen =
   | { name: "lobby" }
   | { name: "game"; source: GameSource; joinTx?: `0x${string}` }
-  | { name: "results"; result: MatchResult; selfId: string; source: GameSource; joinTx?: `0x${string}` };
+  | { name: "results"; result: MatchResult; source: GameSource; joinTx?: `0x${string}` };
+
+const goPlay = () => navigate("play");
 
 export default function App() {
-  // /?practice skips the landing page so the lobby's demo shortcut keeps working.
-  const [screen, setScreen] = useState<Screen>(() =>
-    new URLSearchParams(location.search).has("practice") ? { name: "lobby" } : { name: "landing" },
+  const route = useRoute();
+  if (route === "play") return <PlayArea />;
+  return (
+    <SiteLayout route={route} onPlay={goPlay}>
+      {route === "rewards" ? <Rewards /> : <Landing />}
+    </SiteLayout>
   );
+}
 
-  if (screen.name === "landing") {
-    return <Landing onPlay={() => { window.scrollTo(0, 0); setScreen({ name: "lobby" }); }} />;
+/** #/play: lobby → match → results. Results overlay the frozen match instead of replacing it. */
+function PlayArea() {
+  const [screen, setScreen] = useState<PlayScreen>({ name: "lobby" });
+  const active = useRef<GameSource | null>(null);
+
+  // Leaving #/play mid-match (back button, navbar) must not leave a live room behind.
+  useEffect(() => () => {
+    active.current?.leave();
+    active.current = null;
+  }, []);
+
+  const toLobby = (source: GameSource) => {
+    if (active.current === source) {
+      source.leave();
+      active.current = null;
+    }
+    setScreen({ name: "lobby" });
+  };
+
+  if (screen.name === "lobby") {
+    return (
+      <Lobby
+        onStart={(source, joinTx) => {
+          active.current = source;
+          setScreen({ name: "game", source, joinTx });
+        }}
+      />
+    );
   }
 
-  if (screen.name === "game") {
-    const { source, joinTx } = screen;
-    return (
+  const { source, joinTx } = screen;
+  return (
+    <>
       <Game
         source={source}
-        onEnd={(result) => setScreen({ name: "results", result, selfId: source.selfId, source, joinTx })}
-        onLeave={() => { source.leave(); setScreen({ name: "lobby" }); }}
+        onEnd={(result) => setScreen({ name: "results", result, source, joinTx })}
+        onLeave={() => toLobby(source)}
       />
-    );
-  }
-
-  if (screen.name === "results") {
-    return (
-      <Results
-        result={screen.result}
-        selfId={screen.selfId}
-        source={screen.source}
-        joinTx={screen.joinTx}
-        onBack={() => { screen.source.leave(); setScreen({ name: "lobby" }); }}
-      />
-    );
-  }
-
-  return <Lobby onStart={(source, joinTx) => setScreen({ name: "game", source, joinTx })} />;
+      <AnimatePresence>
+        {screen.name === "results" && (
+          <Results
+            result={screen.result}
+            selfId={source.selfId}
+            source={source}
+            joinTx={joinTx}
+            onBack={() => toLobby(source)}
+          />
+        )}
+      </AnimatePresence>
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { parseEther } from "viem";
 import {
@@ -128,6 +129,7 @@ export default function Lobby({ onStart }: Props) {
 function Brand() {
   return (
     <header className="brand">
+      <a className="back-home" href="#/">← Beranda</a>
       <h1 className="logo"><img src={assetUrl("ui/logo.webp")} alt="SHARDFALL" /></h1>
       <div className="tagline">Isometric battle royale · loot is score · prizes paid on Monad{DEMO && <span className="demo">DEMO MODE</span>}</div>
     </header>
@@ -313,13 +315,54 @@ function RankedRoom({ conn, onLeave, onStart }: { conn: MatchConnection; onLeave
         )}
         <button className="btn ghost" onClick={onLeave}>Leave</button>
       </div>
-      {pay.data && <a className="txlink" href={explorerTx(pay.data)} target="_blank" rel="noreferrer">join tx {short(pay.data)}{receipt.isSuccess ? " ✓ confirmed" : ""}</a>}
-      {pay.error && <p className="error">{pay.error.message.split("\n")[0]}</p>}
+      <AnimatePresence>
+        {(pay.isPending || pay.data || pay.error) && (
+          <JoinTxSteps
+            pending={pay.isPending}
+            hash={pay.data}
+            mined={receipt.isSuccess}
+            paid={!!me?.paid}
+            error={(pay.error ?? receipt.error)?.message.split("\n")[0]}
+            onRetry={() => pay.reset()}
+          />
+        )}
+      </AnimatePresence>
       {err && <p className="error">{err}</p>}
       {lobby.createTx && <a className="txlink" href={explorerTx(lobby.createTx)} target="_blank" rel="noreferrer">seed hash committed on-chain {short(lobby.createTx)} ↗</a>}
       {lobby.status === "cancelled" && <p className="error">Lobby cancelled: fewer than {GAME.players.min} paid players.</p>}
       {lobby.status === "cancelled" && me?.paid && <RefundButton matchId={lobby.matchId} />}
     </section>
+  );
+}
+
+/** Lofi 03 steps 2–3: the ticket transaction as three live steps (wallet → block → room). */
+function JoinTxSteps({ pending, hash, mined, paid, error, onRetry }: {
+  pending: boolean; hash?: `0x${string}`; mined: boolean; paid: boolean; error?: string; onRetry: () => void;
+}) {
+  const steps = [
+    { label: "Confirm in wallet", done: !!hash, now: pending },
+    { label: "Waiting for block", done: mined, now: !!hash && !mined },
+    { label: "Entering room", done: paid, now: mined && !paid },
+  ];
+  const busy = !error && steps.some((s) => s.now);
+  return (
+    <motion.div className="tx-steps" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+      <div className={`tx-ring ${paid ? "ok" : error ? "bad" : busy ? "busy" : ""}`} aria-hidden>{paid ? "✓" : error ? "!" : ""}</div>
+      <div>
+        <b>{error ? "Ticket failed" : paid ? "Ticket confirmed" : "Paying ticket…"}</b>
+        <ol>
+          {steps.map((s) => (
+            <li key={s.label} className={s.done ? "done" : s.now ? "now" : ""}>{s.label} <span>{s.done ? "✓" : s.now ? "●" : "○"}</span></li>
+          ))}
+        </ol>
+        {hash && <a className="txlink" href={explorerTx(hash)} target="_blank" rel="noreferrer">tx {short(hash)} ↗</a>}
+        {error && (
+          <p className="error">
+            {error} <button className="link" onClick={onRetry}>Try again</button>
+          </p>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
