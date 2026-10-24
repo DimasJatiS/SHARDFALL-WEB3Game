@@ -94,7 +94,7 @@ export default function Lobby({ onStart }: Props) {
             <h2>Ranked match</h2>
             <span className="ticket">{GAME.economy.ticketMon} MON ticket</span>
           </div>
-          <p className="muted">4–10 real players. Ticket goes into the <code>MatchEscrow</code> contract; the top 3 are paid automatically when the match settles.</p>
+          <p className="muted">3–10 real players. Ticket goes into the <code>MatchEscrow</code> contract; the top 3 are paid automatically when the match settles.</p>
           <PrizeTable />
           <button className="btn primary big" disabled={!rankedReady || !onChain || joining} onClick={findMatch}>
             {joining ? "Connecting…" : "Find match"}

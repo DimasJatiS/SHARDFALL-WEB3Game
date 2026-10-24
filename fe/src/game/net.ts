@@ -12,7 +12,7 @@
 //   "error"   { message: string }
 // client → server:
 //   "paid"    { txHash }                     after joinMatch receipt; server checks PlayerJoined
-//   "start"   {}                             host only, needs >= 4 paid players
+//   "start"   {}                             host only, needs >= 3 paid players
 //   "input"   InputMsg                       every tick while playing
 
 import { Client, type Room } from "colyseus.js";

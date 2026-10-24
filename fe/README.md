@@ -16,7 +16,7 @@ npm run dev            # http://localhost:5173
 | Mode | Needs | What happens |
 | --- | --- | --- |
 | Practice | nothing | The full match simulation runs in the browser against bots. Payouts are simulated. |
-| Ranked | `VITE_SERVER_URL`, `VITE_ESCROW_ADDRESS`, wallet on Monad Testnet | Join the Colyseus room, pay `joinMatch` (0.1 MON), host starts with 4+ paid players, server settles on-chain. |
+| Ranked | `VITE_SERVER_URL`, `VITE_ESCROW_ADDRESS`, wallet on Monad Testnet | Join the Colyseus room, pay `joinMatch` (0.1 MON), host starts with 3+ paid players, server settles on-chain. |
 
 ## Layout
 

@@ -15,7 +15,7 @@ const Q = DEMO ? 0.5 : 1;
 export const GAME = {
   tickHz: 20,
   map: { size: 124, islandRadius: 52, spawnRadius: 35, campRadius: 5 },
-  players: { min: 4, max: 10 },
+  players: { min: 3, max: 10 },
   lobbySeconds: 60,
 
   player: {
