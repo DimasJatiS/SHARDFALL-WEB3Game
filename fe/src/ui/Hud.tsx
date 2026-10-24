@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GAME, ITEM_DESC, ITEM_NAMES, itemValue } from "../shared/config";
 import type { Item, MapData, PlayerState, Snapshot } from "../shared/types";
-import { itemIcon } from "../game/sprites";
+import { buffIcon, itemIcon } from "../game/sprites";
 import Minimap from "./Minimap";
 
 export interface FeedEntry {
@@ -86,10 +86,10 @@ export default function Hud({ snap, feed, map, selfId, practice, now, onUse, onL
         <Bar value={me.hp} max={me.maxHp} cls="hp" label={`${Math.ceil(Math.max(0, me.hp))} / ${me.maxHp}`} />
         <Bar value={me.stamina} max={GAME.player.stamina} cls="st" label="stamina" />
         <div className="buffs">
-          {me.invuln && <span className="buff gold">Immune</span>}
-          {me.speedBuff && <span className="buff cyan">Swift</span>}
-          {me.parryBonus && <span className="buff yellow">Next hit ×2</span>}
-          {me.action === "stun" && <span className="buff blue">Stunned</span>}
+          {me.invuln && <span className="buff gold"><img src={buffIcon("immune")} alt="" />Immune</span>}
+          {me.speedBuff && <span className="buff cyan"><img src={buffIcon("swift")} alt="" />Swift</span>}
+          {me.parryBonus && <span className="buff yellow"><img src={buffIcon("double_hit")} alt="" />Next hit ×2</span>}
+          {me.action === "stun" && <span className="buff blue"><img src={buffIcon("stunned")} alt="" />Stunned</span>}
         </div>
       </div>
 
@@ -230,9 +230,6 @@ function Prompt({ snap, me }: { snap: Snapshot; me: PlayerState }) {
 
 export function CoinIcon() {
   return (
-    <svg className="coin-icon" viewBox="0 0 16 16" width="18" height="18" aria-hidden>
-      <circle cx="8" cy="8" r="7" fill="#e8c547" stroke="#8a6a1a" strokeWidth="1.5" />
-      <rect x="6.5" y="4" width="3" height="8" rx="1" fill="#fff2a8" />
-    </svg>
+    <img className="coin-icon" src={itemIcon("coin")} width="18" height="18" alt="" />
   );
 }

@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated from ../assetv2 by `npm run sync-assets`
+public/assetv2

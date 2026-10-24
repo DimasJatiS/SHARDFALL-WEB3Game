@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { loadGameAssets, type GameAssets } from "./game/assets";
 import { GameRenderer } from "./game/renderer";
 import { InputController } from "./game/input";
 import type { GameSource } from "./game/net";
@@ -21,10 +22,25 @@ export default function Game({ source, onEnd, onLeave }: Props) {
   const [view, setView] = useState<{ snap: Snapshot; feed: FeedEntry[]; now: number } | null>(null);
   const onEndRef = useRef(onEnd);
   useEffect(() => { onEndRef.current = onEnd; });
+  const [assets, setAssets] = useState<GameAssets | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
+
+  // Assets are loaded once per page (the lobby starts this early), then reused every match.
+  useEffect(() => {
+    let live = true;
+    loadGameAssets((done, total) => live && setProgress(done / total)).then(
+      (a) => live && setAssets(a),
+      (e: unknown) => live && setLoadError(e instanceof Error ? e.message : String(e)),
+    );
+    return () => { live = false; };
+  }, [attempt]);
 
   useEffect(() => {
+    if (!assets) return;
     const stage = stageRef.current!, overlay = overlayRef.current!;
-    const renderer = new GameRenderer(stage, overlay, source.map, source.selfId);
+    const renderer = new GameRenderer(stage, overlay, source.map, source.selfId, assets);
     const input = new InputController(renderer.renderer.domElement);
     inputRef.current = input;
     let feed: FeedEntry[] = [];
@@ -89,12 +105,27 @@ export default function Game({ source, onEnd, onLeave }: Props) {
       renderer.dispose();
       overlay.replaceChildren();
     };
-  }, [source]);
+  }, [source, assets]);
 
   return (
     <div className="game">
       <div ref={stageRef} className="stage" />
       <div ref={overlayRef} className="world-overlay" />
+      {!assets && (
+        <div className="game-loading">
+          {loadError ? (
+            <>
+              <p className="error">{loadError}</p>
+              <button className="btn" onClick={() => { setLoadError(null); setAttempt((n) => n + 1); }}>Coba lagi</button>
+            </>
+          ) : (
+            <>
+              <b>Memuat aset…</b>
+              <div className="progress"><div style={{ width: `${Math.round(progress * 100)}%` }} /></div>
+            </>
+          )}
+        </div>
+      )}
       {view && <Hud snap={view.snap} feed={view.feed} map={source.map} selfId={source.selfId} practice={source.practice} now={view.now} onUse={(i) => inputRef.current?.queueUse(i)} onLeave={onLeave} />}
     </div>
   );

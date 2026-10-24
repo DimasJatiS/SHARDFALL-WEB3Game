@@ -6,7 +6,8 @@ import {
 } from "wagmi";
 import { ESCROW, FAUCET, SERVER_URL, SKIN_SHOP, escrowAbi, explorerTx, monadTestnet, skinShopAbi } from "../config";
 import { LocalSource, MatchConnection, RemoteSource, computePrizes, fmtMon, type GameSource } from "../game/net";
-import { SKINS, portrait } from "../game/sprites";
+import { assetUrl, loadGameAssets } from "../game/assets";
+import { SKINS, portrait, stepIcon } from "../game/sprites";
 import { DEMO, GAME } from "../shared/config";
 import type { LobbyState } from "../shared/types";
 
@@ -29,6 +30,8 @@ export default function Lobby({ onStart }: Props) {
 
   useEffect(() => save("sf.name", name), [name]);
   useEffect(() => save("sf.skin", String(skin)), [skin]);
+  // Warm the in-game sprite cache while the player is still picking a mode.
+  useEffect(() => { loadGameAssets().catch(() => { /* Game shows the error and a retry */ }); }, []);
 
   const onChain = isConnected && chainId === monadTestnet.id;
   const rankedReady = !!SERVER_URL && !!ESCROW;
@@ -125,7 +128,7 @@ export default function Lobby({ onStart }: Props) {
 function Brand() {
   return (
     <header className="brand">
-      <div className="logo">SHARD<span>FALL</span></div>
+      <h1 className="logo"><img src={assetUrl("ui/logo.webp")} alt="SHARDFALL" /></h1>
       <div className="tagline">Isometric battle royale · loot is score · prizes paid on Monad{DEMO && <span className="demo">DEMO MODE</span>}</div>
     </header>
   );
@@ -323,10 +326,10 @@ function RankedRoom({ conn, onLeave, onStart }: { conn: MatchConnection; onLeave
 function HowToPlay() {
   return (
     <section className="howto">
-      <div><b>1 · Loot</b><span>Clear monster camps, hold F to open chests. Every item is worth coins: common 10, rare 25, epic 60.</span></div>
-      <div><b>2 · Make quota</b><span>At the end of each zone phase, anyone holding fewer coins than the quota is eliminated.</span></div>
-      <div><b>3 · Fight</b><span>Attack, defend, parry. Killed raiders drop all their loot — the fastest way to get rich.</span></div>
-      <div><b>4 · Get paid</b><span>Top 3 split the pool 60/25/15, paid by the smart contract the moment the match settles.</span></div>
+      <div><img src={stepIcon("loot")} alt="" /><b>1 · Loot</b><span>Clear monster camps, hold F to open chests. Every item is worth coins: common 10, rare 25, epic 60.</span></div>
+      <div><img src={stepIcon("quota")} alt="" /><b>2 · Make quota</b><span>At the end of each zone phase, anyone holding fewer coins than the quota is eliminated.</span></div>
+      <div><img src={stepIcon("fight")} alt="" /><b>3 · Fight</b><span>Attack, defend, parry. Killed raiders drop all their loot — the fastest way to get rich.</span></div>
+      <div><img src={stepIcon("paid")} alt="" /><b>4 · Get paid</b><span>Top 3 split the pool 60/25/15, paid by the smart contract the moment the match settles.</span></div>
     </section>
   );
 }
