@@ -111,8 +111,8 @@ export function generateMap(seed: number): MapData {
       placed++;
     }
   };
-  placeRing("iron", GAME.chests.iron.count, 8, 13, 8);
-  placeRing("wood", GAME.chests.wood.count, 14, 23.5, 8);
+  placeRing("iron", GAME.chests.iron.count, 10, 17, 10);
+  placeRing("wood", GAME.chests.wood.count, 20, 31, 10);
 
   // Distribute the fixed 36-item pool over the chests.
   const pool: ItemKind[] = [];
@@ -124,7 +124,7 @@ export function generateMap(seed: number): MapData {
     const def = GAME.chests[c.tier];
     const guards = def.guards.map((kind, gi) => {
       const a = (gi / def.guards.length) * Math.PI * 2 + rand();
-      const r = kind === "boss" ? 0 : 2.4;
+      const r = kind === "boss" ? 0 : 4.5;
       const p = r === 0 ? { x: c.x + 2, z: c.z } : { x: c.x + Math.cos(a) * r, z: c.z + Math.sin(a) * r };
       return { kind, ...(walk(p.x, p.z) ? p : nearestWalkable(p.x, p.z)) };
     });
