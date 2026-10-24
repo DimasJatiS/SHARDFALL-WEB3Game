@@ -4,7 +4,9 @@
 import type { ItemKind, Rarity } from "./types";
 
 const env = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
-export const DEMO = env?.VITE_DEMO === "true";
+const nodeEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+/** Client reads VITE_DEMO, the server reads DEMO. They must match. */
+export const DEMO = env?.VITE_DEMO === "true" || nodeEnv?.DEMO === "true";
 
 /** DEMO mode: faster zones and lower quotas so a pitch match ends in ~90 s. */
 const T = DEMO ? 0.3 : 1;

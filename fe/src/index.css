@@ -282,3 +282,14 @@ kbd { font-family: var(--mono); font-size: 0.78em; padding: 1px 6px; border-radi
 @keyframes dots { 33% { content: "."; } 66% { content: ".."; } 100% { content: "..."; } }
 
 
+
+/* ---------- on-chain proof ---------- */
+.verified { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; background: rgba(255,255,255,0.03); }
+.verified.ok { border-color: rgba(90,216,122,0.55); background: rgba(90,216,122,0.07); }
+.verified.bad { border-color: rgba(255,74,90,0.55); background: rgba(255,74,90,0.07); }
+.v-title { font: 800 1rem var(--display); margin-bottom: 4px; }
+.verified.ok .v-title { color: var(--green); }
+.verified.bad .v-title { color: var(--red); }
+.v-row { font-size: 0.8rem; color: var(--muted); }
+.v-hash { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+.refund { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }

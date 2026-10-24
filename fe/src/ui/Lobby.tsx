@@ -313,7 +313,9 @@ function RankedRoom({ conn, onLeave, onStart }: { conn: MatchConnection; onLeave
       {pay.data && <a className="txlink" href={explorerTx(pay.data)} target="_blank" rel="noreferrer">join tx {short(pay.data)}{receipt.isSuccess ? " ✓ confirmed" : ""}</a>}
       {pay.error && <p className="error">{pay.error.message.split("\n")[0]}</p>}
       {err && <p className="error">{err}</p>}
-      {lobby.status === "cancelled" && <p className="error">Lobby cancelled. If you paid, call <code>refund</code> on the escrow (available after the timeout).</p>}
+      {lobby.createTx && <a className="txlink" href={explorerTx(lobby.createTx)} target="_blank" rel="noreferrer">seed hash committed on-chain {short(lobby.createTx)} ↗</a>}
+      {lobby.status === "cancelled" && <p className="error">Lobby cancelled: fewer than {GAME.players.min} paid players.</p>}
+      {lobby.status === "cancelled" && me?.paid && <RefundButton matchId={lobby.matchId} />}
     </section>
   );
 }
@@ -326,5 +328,34 @@ function HowToPlay() {
       <div><b>3 · Fight</b><span>Attack, defend, parry. Killed raiders drop all their loot — the fastest way to get rich.</span></div>
       <div><b>4 · Get paid</b><span>Top 3 split the pool 60/25/15, paid by the smart contract the moment the match settles.</span></div>
     </section>
+  );
+}
+
+/** Pull your ticket back from MatchEscrow once the contract allows it. */
+function RefundButton({ matchId }: { matchId: `0x${string}` }) {
+  const { address } = useConnection();
+  const { data: available } = useReadContracts({
+    contracts: [
+      { address: ESCROW!, abi: escrowAbi, functionName: "refundAvailable", args: [matchId], chainId: monadTestnet.id },
+      { address: ESCROW!, abi: escrowAbi, functionName: "refunded", args: [matchId, address!], chainId: monadTestnet.id },
+    ],
+    query: { enabled: !!ESCROW && !!address, refetchInterval: 4000 },
+  });
+  const refund = useWriteContract();
+  const receipt = useWaitForTransactionReceipt({ hash: refund.data, chainId: monadTestnet.id });
+  const canRefund = available?.[0]?.result === true;
+  const done = available?.[1]?.result === true || receipt.isSuccess;
+  return (
+    <div className="refund">
+      <button
+        className="btn warn"
+        disabled={!canRefund || done || refund.isPending || receipt.isLoading}
+        onClick={() => refund.mutate({ address: ESCROW!, abi: escrowAbi, functionName: "refund", args: [matchId], chainId: monadTestnet.id })}
+      >
+        {done ? "Ticket refunded ✓" : refund.isPending ? "Confirm in wallet…" : receipt.isLoading ? "Refunding…" : canRefund ? "Refund my ticket" : "Refund opens 2 min after lobby creation…"}
+      </button>
+      {refund.data && <a className="txlink" href={explorerTx(refund.data)} target="_blank" rel="noreferrer">refund tx {short(refund.data)}</a>}
+      {refund.error && <p className="error">{refund.error.message.split("\n")[0]}</p>}
+    </div>
   );
 }
