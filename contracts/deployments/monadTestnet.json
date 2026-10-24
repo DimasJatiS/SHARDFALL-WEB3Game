@@ -1,17 +1,17 @@
 {
   "network": "monadTestnet",
   "chainId": 10143,
-  "deployedAt": "2026-10-24T08:24:45.256Z",
+  "deployedAt": "2026-10-24T08:29:01.854Z",
   "deployer": "0x7071e05e46b7055d4f774b750ab1a8d565fffc69",
   "MatchEscrow": {
-    "address": "0x3ecf4dfa5e31bb77ffa61c19c060dcc9f10b8646",
+    "address": "0x8b8603b9e6112b0af377ec1c836c0d43290197a1",
     "args": [
       "0x7071e05E46b7055d4F774b750aB1A8d565fFfc69",
       "0x7071e05E46b7055d4F774b750aB1A8d565fFfc69"
     ]
   },
   "SkinShop": {
-    "address": "0x98de57e0dcc0f642f5215241935892af924958dc",
+    "address": "0xc34d3cd946adac1d4bf1367f2d030cf232503f1f",
     "args": [
       "0x7071e05E46b7055d4F774b750aB1A8d565fFfc69",
       ""

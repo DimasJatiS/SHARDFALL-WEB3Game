@@ -25,3 +25,4 @@ dist-ssr
 
 # Generated from ../assetv2 by `npm run sync-assets`
 public/assetv2
+.env
