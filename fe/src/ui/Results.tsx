@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { ESCROW, explorerAddress, explorerTx } from "../config";
+import { keccak256 } from "viem";
+import { useReadContract } from "wagmi";
+import { ESCROW, escrowAbi, explorerAddress, explorerTx, monadTestnet } from "../config";
 import { fmtMon, type GameSource } from "../game/net";
 import { portrait } from "../game/sprites";
 import type { MatchResult } from "../shared/types";
@@ -73,7 +75,9 @@ export default function Results({ result, selfId, source, joinTx, onBack }: Prop
             <p className="muted">Practice match: payouts shown are what a ranked match with {result.standings.length} players would pay. No MON moved.</p>
           ) : (
             <>
+              <Verified result={result} />
               <div className="oc-row"><span>Prize pool</span><b>{fmtMon(result.poolWei)} MON</b></div>
+              {result.createTx && <div className="oc-row"><span>Seed committed</span><a href={explorerTx(result.createTx)} target="_blank" rel="noreferrer">{short(result.createTx)} ↗</a></div>}
               {joinTx && <div className="oc-row"><span>Your ticket</span><a href={explorerTx(joinTx)} target="_blank" rel="noreferrer">{short(joinTx)} ↗</a></div>}
               <div className="oc-row">
                 <span>Settlement</span>
@@ -84,8 +88,36 @@ export default function Results({ result, selfId, source, joinTx, onBack }: Prop
             </>
           )}
         </div>
-        <button className="btn primary big" onClick={onBack}>Back to lobby</button>
+        <button className="btn primary big" onClick={onBack}>Play again</button>
       </div>
+    </div>
+  );
+}
+
+/** Checks the fairness proof against the chain: the revealed seed hashes to the value committed in
+ *  createMatch before anyone joined, and that seed is the one that generated this map. */
+function Verified({ result }: { result: MatchResult }) {
+  const { data: m } = useReadContract({
+    address: ESCROW,
+    abi: escrowAbi,
+    functionName: "matches",
+    args: result.matchId ? [result.matchId] : undefined,
+    chainId: monadTestnet.id,
+    query: { enabled: !!ESCROW && !!result.matchId, refetchInterval: (q) => (q.state.data?.[3] ? false : 3000) },
+  });
+  if (!result.seedHex || !result.matchId) return null;
+  const committed = m?.[5];
+  const settled = m?.[3];
+  const seedOk = !!committed && keccak256(result.seedHex) === committed;
+  const mapOk = parseInt(result.seedHex.slice(2, 10), 16) === result.seed;
+  const ok = seedOk && mapOk;
+  return (
+    <div className={`verified ${ok ? "ok" : committed ? "bad" : ""}`}>
+      <div className="v-title">{ok ? "✓ Verified" : committed ? "✗ Verification failed" : "Checking on-chain…"}</div>
+      <div className="v-row">{seedOk ? "✓" : "·"} keccak256(revealed seed) matches the hash committed before anyone joined</div>
+      <div className="v-row">{mapOk ? "✓" : "·"} this map was generated from that seed</div>
+      <div className="v-row">{settled ? "✓" : "·"} prizes paid by MatchEscrow {settled ? "" : "(waiting)"}</div>
+      <div className="v-hash mono">seed {short(result.seedHex)} · hash {committed ? short(committed) : "…"}</div>
     </div>
   );
 }

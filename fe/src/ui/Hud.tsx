@@ -21,6 +21,7 @@ interface Props {
   practice: boolean;
   now: number;
   onUse: (slot: number) => void;
+  onLeave: () => void;
 }
 
 const fmt = (s: number) => {
@@ -28,7 +29,7 @@ const fmt = (s: number) => {
   return `${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}`;
 };
 
-export default function Hud({ snap, feed, map, selfId, practice, now, onUse }: Props) {
+export default function Hud({ snap, feed, map, selfId, practice, now, onUse, onLeave }: Props) {
   const [help, setHelp] = useState(true);
   const me = snap.players.find((p) => p.id === selfId);
   if (!me) return null;
@@ -73,6 +74,10 @@ export default function Hud({ snap, feed, map, selfId, practice, now, onUse }: P
         ) : (
           <div className="quota-line muted">no quota — survive</div>
         )}
+      </div>
+      {/* Leave Game Logic */}
+      <div className="leave-game">
+        <button className="btn btn-secondary" onClick={onLeave}>Leave Game</button>
       </div>
 
       {/* Bottom left: vitals */}

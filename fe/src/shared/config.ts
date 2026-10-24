@@ -4,7 +4,9 @@
 import type { ItemKind, Rarity } from "./types";
 
 const env = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
-export const DEMO = env?.VITE_DEMO === "true";
+const nodeEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+/** Client reads VITE_DEMO, the server reads DEMO. They must match. */
+export const DEMO = env?.VITE_DEMO === "true" || nodeEnv?.DEMO === "true";
 
 /** DEMO mode: faster zones and lower quotas so a pitch match ends in ~90 s. */
 const T = DEMO ? 0.3 : 1;
@@ -12,7 +14,7 @@ const Q = DEMO ? 0.5 : 1;
 
 export const GAME = {
   tickHz: 20,
-  map: { size: 64, islandRadius: 31, spawnRadius: 28, campRadius: 4 },
+  map: { size: 124, islandRadius: 52, spawnRadius: 35, campRadius: 5 },
   players: { min: 4, max: 10 },
   lobbySeconds: 60,
 
@@ -70,8 +72,8 @@ export const GAME = {
   } satisfies Record<ItemKind, number>,
 
   chests: {
-    wood: { count: 12, items: 2, rarity: [0.75, 0.25, 0], guards: ["minion", "minion", "minion"] },
-    iron: { count: 4, items: 2, rarity: [0, 0.6, 0.4], guards: ["minion", "minion", "minion", "minion", "elite"] },
+    wood: { count: 8, items: 2, rarity: [0.75, 0.25, 0], guards: ["minion", "minion", "minion"] },
+    iron: { count: 2, items: 2, rarity: [0, 0.6, 0.4], guards: ["minion", "minion", "minion", "minion", "elite"] },
     boss: { count: 1, items: 4, rarity: [0, 0, 1], guards: ["boss"] },
   } as const,
 
@@ -91,9 +93,9 @@ export const GAME = {
 
   /** Bluezone phases. Quota is checked at the END of each phase (scaled by player count). */
   zone: [
-    { start: 0, end: 90 * T, r0: 32, r1: 32, dps: 0, quota: 0 },
-    { start: 90 * T, end: 150 * T, r0: 32, r1: 22, dps: 2, quota: 30 * Q },
-    { start: 150 * T, end: 210 * T, r0: 22, r1: 12, dps: 5, quota: 70 * Q },
+    { start: 0, end: 90 * T, r0: 39, r1: 39, dps: 0, quota: 0 },
+    { start: 90 * T, end: 150 * T, r0: 39, r1: 27, dps: 2, quota: 30 * Q },
+    { start: 150 * T, end: 210 * T, r0: 27, r1: 12, dps: 5, quota: 70 * Q },
     { start: 210 * T, end: 255 * T, r0: 12, r1: 5, dps: 10, quota: 130 * Q },
     { start: 255 * T, end: 300 * T, r0: 5, r1: 0, dps: 20, quota: 0 },
   ],

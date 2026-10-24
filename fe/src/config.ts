@@ -78,6 +78,12 @@ export const escrowAbi = [
       { name: "amount", type: "uint256", indexed: false },
     ],
   },
+  { type: "function", name: "matches", stateMutability: "view", inputs: [{ name: "matchId", type: "bytes32" }], outputs: [
+    { name: "entryFee", type: "uint96" }, { name: "maxPlayers", type: "uint8" }, { name: "playerCount", type: "uint8" },
+    { name: "settled", type: "bool" }, { name: "createdAt", type: "uint40" }, { name: "seedHash", type: "bytes32" }] },
+  { type: "function", name: "isPlayer", stateMutability: "view", inputs: [{ name: "matchId", type: "bytes32" }, { name: "player", type: "address" }], outputs: [{ type: "bool" }] },
+  { type: "function", name: "refundAvailable", stateMutability: "view", inputs: [{ name: "matchId", type: "bytes32" }], outputs: [{ type: "bool" }] },
+  { type: "function", name: "refunded", stateMutability: "view", inputs: [{ name: "matchId", type: "bytes32" }, { name: "player", type: "address" }], outputs: [{ type: "bool" }] },
 ] as const;
 
 export const skinShopAbi = [

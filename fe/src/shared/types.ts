@@ -215,6 +215,8 @@ export interface LobbyState {
   status: "waiting" | "starting" | "playing" | "cancelled";
   /** ms epoch when the lobby auto-cancels / auto-starts. */
   deadline: number;
+  /** createMatch tx that committed the seed hash (ranked only). */
+  createTx?: `0x${string}`;
 }
 
 export interface Standing {
@@ -235,5 +237,9 @@ export interface MatchResult {
   prizesWei: [string, string, string];
   poolWei: string;
   settleTx?: `0x${string}`;
+  /** Revealed bytes32 seed and its hash; the map seed is parseInt(seedHex.slice(2, 10), 16). */
+  seedHex?: `0x${string}`;
+  seedHash?: `0x${string}`;
+  createTx?: `0x${string}`;
   practice: boolean;
 }
