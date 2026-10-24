@@ -32,6 +32,7 @@ export interface GameSource {
   sendInput(input: InputMsg): void;
   onEnd(cb: (r: MatchResult) => void): () => void;
   onSettled?(cb: (tx: `0x${string}`) => void): () => void;
+  leave(): void;
   dispose(): void;
 }
 
@@ -89,6 +90,7 @@ export class LocalSource implements GameSource {
   drainEvents() { const e = this.events; this.events = []; return e; }
   sendInput(input: InputMsg) { this.sim.setInput(this.selfId, input); }
   onEnd(cb: (r: MatchResult) => void) { this.endCbs.add(cb); return () => this.endCbs.delete(cb); }
+  leave() { clearInterval(this.timer); this.endCbs.clear(); }
   dispose() { clearInterval(this.timer); this.endCbs.clear(); }
 }
 
@@ -149,5 +151,6 @@ export class RemoteSource implements GameSource {
   sendInput(input: InputMsg) { this.conn.room.send("input", input); }
   onEnd(cb: (r: MatchResult) => void) { this.endCbs.add(cb); return () => this.endCbs.delete(cb); }
   onSettled(cb: (tx: `0x${string}`) => void) { this.settledCbs.add(cb); return () => this.settledCbs.delete(cb); }
+  leave() { void this.conn.leave(); this.dispose(); }
   dispose() { this.endCbs.clear(); this.settledCbs.clear(); }
 }

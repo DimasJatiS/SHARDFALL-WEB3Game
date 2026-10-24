@@ -9,11 +9,12 @@ import Hud, { type FeedEntry } from "./ui/Hud";
 interface Props {
   source: GameSource;
   onEnd: (r: MatchResult) => void;
+  onLeave: () => void;
 }
 
 const HUD_HZ = 10;
 
-export default function Game({ source, onEnd }: Props) {
+export default function Game({ source, onEnd, onLeave }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<InputController | null>(null);
@@ -94,7 +95,7 @@ export default function Game({ source, onEnd }: Props) {
     <div className="game">
       <div ref={stageRef} className="stage" />
       <div ref={overlayRef} className="world-overlay" />
-      {view && <Hud snap={view.snap} feed={view.feed} map={source.map} selfId={source.selfId} practice={source.practice} now={view.now} onUse={(i) => inputRef.current?.queueUse(i)} />}
+      {view && <Hud snap={view.snap} feed={view.feed} map={source.map} selfId={source.selfId} practice={source.practice} now={view.now} onUse={(i) => inputRef.current?.queueUse(i)} onLeave={onLeave} />}
     </div>
   );
 }
