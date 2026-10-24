@@ -1,4 +1,4 @@
-// Tests from PRD v2 §4.3: rejections, payouts for 10 and 4 players, refund timing.
+// Tests from PRD v2 §4.3: rejections, payouts for 10 and 3 players, refund timing.
 import assert from "node:assert/strict";
 import hre from "hardhat";
 import { keccak256, parseEther, toHex, type Address } from "viem";
@@ -48,19 +48,19 @@ describe("MatchEscrow", () => {
     await rejects((await as(10)).write.joinMatch([matchId], { value: FEE }), "MatchFull");
   }).timeout(60000);
 
-  it("rejects settle with wrong seed, from a non-operator, or with < 4 players", async () => {
+  it("rejects settle with wrong seed, from a non-operator, or with < 3 players", async () => {
     const { asOp, as, join, addr } = await setup();
-    await join(3);
+    await join(2);
     const top3 = [addr(0), addr(1), addr(2)] as const;
     await rejects(asOp.write.settleMatch([matchId, top3, seed]), "NotEnoughPlayers");
-    await join(4);
+    await join(3);
     await rejects(asOp.write.settleMatch([matchId, top3, keccak256(toHex("wrong"))]), "BadSeed");
     await rejects((await as(0)).write.settleMatch([matchId, top3, seed]), "NotOperator");
     await rejects(asOp.write.settleMatch([matchId, [addr(0), addr(0), addr(1)], seed]), "BadWinners");
     await rejects(asOp.write.settleMatch([matchId, [addr(0), addr(1), addr(8)], seed]), "BadWinners");
   }).timeout(60000);
 
-  for (const n of [10, 4]) {
+  for (const n of [10, 3]) {
     it(`pays the top 3 correctly with ${n} players`, async () => {
       const { asOp, join, addr, pub, treasury, escrow } = await setup();
       await join(n);
@@ -80,9 +80,9 @@ describe("MatchEscrow", () => {
 
   it("refunds only after the timeout, and only once", async () => {
     const { as, join, asOp, addr } = await setup();
-    await join(3);
+    await join(2);
     await rejects((await as(0)).write.refund([matchId]), "RefundNotAvailable");
-    await increaseTime(121); // lobby failed: < 4 players after 2 minutes
+    await increaseTime(121); // lobby failed: < 3 players after 2 minutes
     await (await as(0)).write.refund([matchId]);
     await rejects((await as(0)).write.refund([matchId]), "RefundNotAvailable");
     await rejects((await as(9)).write.refund([matchId]), "RefundNotAvailable"); // never joined
@@ -90,11 +90,11 @@ describe("MatchEscrow", () => {
 
   it("full lobby never settled: refund after 15 minutes and settle closes", async () => {
     const { as, join, asOp, addr } = await setup();
-    await join(4);
+    await join(3);
     await increaseTime(121);
-    await rejects((await as(0)).write.refund([matchId]), "RefundNotAvailable"); // 4 players: no lobby refund
+    await rejects((await as(0)).write.refund([matchId]), "RefundNotAvailable"); // 3 players: no lobby refund
     await increaseTime(15 * 60);
-    await (await as(3)).write.refund([matchId]);
+    await (await as(2)).write.refund([matchId]);
     await rejects(asOp.write.settleMatch([matchId, [addr(0), addr(1), addr(2)], seed]), "SettleWindowClosed");
   }).timeout(60000);
 

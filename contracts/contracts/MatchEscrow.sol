@@ -9,7 +9,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 ///         The map seed hash is committed at creation and revealed at settlement, so anyone can
 ///         check the map was not changed mid-match. The game server never holds player funds.
 contract MatchEscrow is Ownable, ReentrancyGuard {
-    uint8 public constant MIN_PLAYERS = 4;
+    uint8 public constant MIN_PLAYERS = 3;
     uint16 public constant FEE_BPS = 500; // 5% to treasury
     uint16 public constant BPS = 10_000;
     /// @dev Fewer than MIN_PLAYERS after this → players may refund.
