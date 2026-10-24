@@ -6,14 +6,18 @@ import QRCode from "qrcode";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { assetUrl } from "../game/assets";
 import { useSite } from "../site/context";
-import { consumeAnchor, peekAnchor } from "../site/router";
+import { ANCHOR_EVENT, consumeAnchor, peekAnchor } from "../site/router";
 import { short, useWalletStatus } from "../site/wallet";
 import { DEMO_CODE, EARN, VOUCHERS, type Voucher } from "./data";
+import LeaderRewards from "./LeaderRewards";
 import "./rewards.css";
+import SkinShop from "./SkinShop";
 import { claimVoucher, markUsed, redeemCode, stockLeft, useRewards, type Claim } from "./store";
 
 const TABS = [
   { id: "voucher", label: "Tukar voucher" },
+  { id: "skin", label: "Skin shop" },
+  { id: "leaderboard", label: "Hadiah leaderboard" },
   { id: "redeem", label: "Redeem kode" },
   { id: "history", label: "Riwayat klaim" },
 ] as const;
@@ -44,6 +48,15 @@ export default function Rewards() {
   const [modal, setModal] = useState<null | { voucher?: Voucher; claim?: Claim }>(null);
 
   useEffect(() => { consumeAnchor(); }, []);
+  // Navbar links into a tab while this page is already open (no remount).
+  useEffect(() => {
+    const onAnchor = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (TABS.some((t) => t.id === id)) setTab(id as Tab);
+    };
+    window.addEventListener(ANCHOR_EVENT, onAnchor);
+    return () => window.removeEventListener(ANCHOR_EVENT, onAnchor);
+  }, []);
 
   const needWallet = () => {
     site.toast("Connect wallet dulu untuk menukar poin.");
@@ -108,6 +121,8 @@ export default function Rewards() {
                 onPick={(v) => (isConnected ? setModal({ voucher: v }) : needWallet())}
               />
             )}
+            {tab === "skin" && <SkinShop />}
+            {tab === "leaderboard" && <LeaderRewards address={address} onNeedWallet={needWallet} />}
             {tab === "redeem" && <RedeemForm address={address} onNeedWallet={needWallet} />}
             {tab === "history" && <History claims={wallet.claims} onOpen={(c) => setModal({ claim: c })} onPlay={site.play} />}
           </motion.section>

@@ -151,7 +151,7 @@ export default function Landing() {
                 {i === 0 ? (
                   <span className="lp-dim">Default · dimiliki</span>
                 ) : (
-                  <button className="lp-btn block" onClick={site.play}>Beli {GAME.economy.skinPriceMon.replace(".", ",")} MON</button>
+                  <button className="lp-btn block" onClick={() => navigate("rewards", "skin")}>Beli {GAME.economy.skinPriceMon.replace(".", ",")} MON</button>
                 )}
               </div>
             ))}
@@ -216,12 +216,12 @@ function Hero({ onJoin, onPractice }: { onJoin: () => void; onPractice: () => vo
       </Suspense>
       <div className="lp-wrap lp-hero-grid">
         <div className="lp-hero-copy">
-          <span className="lp-mono">Battle royale {duration(GAME.matchSeconds)} · {GAME.players.min}–{GAME.players.max} pemain · di browser</span>
-          <h1>Brawl Stars ketemu <span>zona PUBG.</span></h1>
-          <p>Uangmu dipegang smart contract, map dikunci sebelum match, hadiah cair dalam satu detik.</p>
+          <span className="lp-mono">Battle royale {duration(GAME.matchSeconds)} · {GAME.players.min}–{GAME.players.max} raider · langsung di browser</span>
+          <h1>Kaya, atau <span>tereliminasi.</span></h1>
+          <p>Rampas loot, kejar kuota tiap zona, dan bertahan sampai lingkaran terakhir. Tiketmu dikunci smart contract, Top 3 dibayar MON tanpa perantara.</p>
           <div className="lp-actions">
-            <button className="lp-btn primary lg" onClick={onJoin}>Main Sekarang · {TICKET} MON</button>
-            <button className="lp-btn lg" onClick={() => scrollTo("cara-main")}>Lihat Tutorial</button>
+            <button className="lp-btn primary lg" onClick={onJoin}>Masuk Arena · {TICKET} MON</button>
+            <button className="lp-btn lg" onClick={() => scrollTo("cara-main")}>Cara Main</button>
           </div>
           <ul className="lp-checks">
             <li>Tiket di escrow on-chain</li>

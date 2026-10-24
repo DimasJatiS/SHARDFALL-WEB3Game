@@ -3,12 +3,12 @@
 // Keep the API (balance, claim, redeem, history) when swapping in real reads/writes.
 
 import { useSyncExternalStore } from "react";
-import { REDEEM_CODES, STARTING_RP, VOUCHERS, type Voucher } from "./data";
+import { REDEEM_CODES, STARTING_RP, VOUCHERS, tierFor, type Voucher } from "./data";
 
 export interface Claim {
   id: string;
   at: number;
-  kind: "voucher" | "code";
+  kind: "voucher" | "code" | "leaderboard";
   title: string;
   /** negative = spent, positive = earned */
   points: number;
@@ -26,6 +26,8 @@ interface WalletRewards {
   usedCodes: string[];
   /** voucherId → claimed count, to shrink "Sisa" */
   taken: Record<string, number>;
+  /** Week ids whose leaderboard prize was claimed. Optional: older saves lack it. */
+  leaderWeeks?: string[];
 }
 
 const KEY = "sf.rewards.v1";
@@ -121,6 +123,25 @@ export function redeemCode(address: string, raw: string): ClaimResult {
     tx: mockTx(),
   };
   update(address, (x) => ({ ...x, rp: x.rp + entry.points, claims: [claim, ...x.claims], usedCodes: [...x.usedCodes, code] }));
+  return { ok: true, claim };
+}
+
+export const leaderClaimed = (w: WalletRewards, week: string) => !!w.leaderWeeks?.includes(week);
+
+export function claimLeaderPrize(address: string, week: string, rank: number): ClaimResult {
+  const tier = tierFor(rank);
+  if (!tier) return { ok: false, error: `Peringkat #${rank} di luar top 10.` };
+  if (leaderClaimed(read(address), week)) return { ok: false, error: "Hadiah minggu ini sudah diklaim." };
+  const claim: Claim = {
+    id: crypto.randomUUID(),
+    at: Date.now(),
+    kind: "leaderboard",
+    title: `Hadiah leaderboard #${rank} · minggu ${week}`,
+    points: tier.rp,
+    status: "selesai",
+    tx: mockTx(),
+  };
+  update(address, (x) => ({ ...x, rp: x.rp + tier.rp, claims: [claim, ...x.claims], leaderWeeks: [...(x.leaderWeeks ?? []), week] }));
   return { ok: true, claim };
 }
 

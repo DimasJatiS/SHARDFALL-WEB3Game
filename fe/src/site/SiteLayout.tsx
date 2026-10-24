@@ -20,7 +20,7 @@ const NAV: { label: string; route: Route; anchor?: string }[] = [
   { label: "Cara Main", route: "home", anchor: "cara-main" },
   { label: "Fair Play", route: "home", anchor: "fair-play" },
   { label: "Leaderboard", route: "home", anchor: "leaderboard" },
-  { label: "Skin Shop", route: "home", anchor: "skin" },
+  { label: "Skin Shop", route: "rewards", anchor: "skin" },
   { label: "Rewards", route: "rewards" },
   { label: "FAQ", route: "home", anchor: "faq" },
 ];

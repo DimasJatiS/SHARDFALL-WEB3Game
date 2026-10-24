@@ -17,10 +17,14 @@ const parse = (): Route => {
 /** Section to scroll to once the target route has rendered (e.g. Rewards → "Cara Main"). */
 let pendingAnchor: string | null = null;
 
+/** Fired with the anchor id when navigating to an anchor on the page already open (e.g. a Rewards tab). */
+export const ANCHOR_EVENT = "sf:anchor";
+
 export function navigate(route: Route, anchor?: string) {
   pendingAnchor = anchor ?? null;
   const hash = route === "home" ? "#/" : `#/${route}`;
   if (location.hash === hash || (route === "home" && !location.hash)) {
+    if (anchor) window.dispatchEvent(new CustomEvent(ANCHOR_EVENT, { detail: anchor }));
     if (anchor) scrollToAnchor(anchor);
     else window.scrollTo({ top: 0, behavior: "smooth" });
     pendingAnchor = null;

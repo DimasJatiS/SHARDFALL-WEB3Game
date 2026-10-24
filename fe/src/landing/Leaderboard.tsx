@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { LEADER_TIERS } from "../rewards/data";
+import { navigate } from "../site/router";
 import { LEADERBOARD, portraitUrl, type LeaderRow } from "./data";
 
 const PERIODS = [
@@ -67,6 +69,13 @@ export default function Leaderboard() {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="lb-prizes">
+        <b>Hadiah mingguan</b>
+        {LEADER_TIERS.map((t) => (
+          <span key={t.from}>#{t.from}{t.to > t.from && `–${t.to}`} <em>+{t.rp} RP</em></span>
+        ))}
+        <button className="lp-btn sm" onClick={() => navigate("rewards", "leaderboard")}>Klaim hadiah →</button>
       </div>
       <p className="lp-note">Data contoh. Peringkat akan dibaca dari event <code>MatchSettled</code> di contract.</p>
     </div>

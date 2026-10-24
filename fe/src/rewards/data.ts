@@ -41,3 +41,33 @@ export const REDEEM_CODES: Record<string, { points: number; label: string; expir
 };
 
 export const DEMO_CODE = "ZR-JOGJA-2026";
+
+/** Weekly leaderboard prizes in Raider Points, by final rank of the week. */
+export const LEADER_TIERS = [
+  { from: 1, to: 1, rp: 500, extra: "Badge Champion" },
+  { from: 2, to: 2, rp: 300, extra: "Badge Runner-up" },
+  { from: 3, to: 3, rp: 200, extra: "Badge Podium" },
+  { from: 4, to: 10, rp: 100 },
+] as const;
+
+export const tierFor = (rank: number) => LEADER_TIERS.find((t) => rank >= t.from && rank <= t.to);
+
+/** The week resets Monday 00:00 WIB (UTC+7). Week id = that Monday's date, e.g. "2026-10-19". */
+const WIB = 7 * 3600e3;
+export function weekStart(now = Date.now()) {
+  const local = new Date(now + WIB);
+  const day = (local.getUTCDay() + 6) % 7; // Monday = 0
+  return Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate() - day) - WIB;
+}
+export const weekId = (start: number) => new Date(start + WIB).toISOString().slice(0, 10);
+export const WEEK_MS = 7 * 24 * 3600e3;
+
+/**
+ * Demo stand-in for "your rank last week" until ranks are read from MatchSettled events:
+ * a stable rank 1–15 per wallet and week, so every wallet can try the claim flow.
+ */
+export function demoRank(address: string, week: string) {
+  let h = 2166136261;
+  for (const c of address.toLowerCase() + week) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+  return ((h >>> 0) % 15) + 1;
+}
