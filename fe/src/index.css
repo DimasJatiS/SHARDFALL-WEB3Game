@@ -161,7 +161,7 @@ kbd { font-family: var(--mono); font-size: 0.78em; padding: 1px 6px; border-radi
 
 .hud { position: absolute; inset: 0; pointer-events: none; font-family: var(--sans); }
 .hud > * { pointer-events: none; }
-.hud .inventory, .hud .help { pointer-events: auto; }
+.hud .inventory, .hud .help, .hud .leave-game { pointer-events: auto; }
 .zone-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 160px 40px rgba(40, 110, 255, 0.55); animation: pulse 1.2s infinite; }
 .quota-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 140px 30px rgba(255, 40, 60, 0.45); animation: pulse 0.6s infinite; }
 @keyframes pulse { 50% { opacity: 0.55; } }
@@ -187,6 +187,7 @@ kbd { font-family: var(--mono); font-size: 0.78em; padding: 1px 6px; border-radi
 .quota-line .safe { color: var(--green); font-weight: 700; margin-left: 4px; }
 .quota.danger { border-color: rgba(255,74,90,0.45); }
 .quota.warn { animation: shake 0.4s infinite; border-color: var(--red); box-shadow: 0 0 24px rgba(255,74,90,0.45); }
+.leave-game { position: absolute; top: 126px; left: 16px; z-index: 2; }
 @keyframes shake { 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
 
 .vitals { position: absolute; left: 16px; bottom: 18px; width: 250px; display: flex; flex-direction: column; gap: 6px; }
@@ -279,3 +280,16 @@ kbd { font-family: var(--mono); font-size: 0.78em; padding: 1px 6px; border-radi
 .pending { color: var(--gold2); }
 .pending::after { content: ""; animation: dots 1.2s infinite; }
 @keyframes dots { 33% { content: "."; } 66% { content: ".."; } 100% { content: "..."; } }
+
+
+
+/* ---------- on-chain proof ---------- */
+.verified { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; background: rgba(255,255,255,0.03); }
+.verified.ok { border-color: rgba(90,216,122,0.55); background: rgba(90,216,122,0.07); }
+.verified.bad { border-color: rgba(255,74,90,0.55); background: rgba(255,74,90,0.07); }
+.v-title { font: 800 1rem var(--display); margin-bottom: 4px; }
+.verified.ok .v-title { color: var(--green); }
+.verified.bad .v-title { color: var(--red); }
+.v-row { font-size: 0.8rem; color: var(--muted); }
+.v-hash { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+.refund { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }

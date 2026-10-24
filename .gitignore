@@ -1,0 +1,6 @@
+# Secrets: never commit private keys
+.env
+**/.env
+!**/.env.example
+# Local rehearsal deployment
+contracts/deployments/localhost.json

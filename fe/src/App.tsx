@@ -15,7 +15,13 @@ export default function App() {
 
   if (screen.name === "game") {
     const { source, joinTx } = screen;
-    return <Game source={source} onEnd={(result) => setScreen({ name: "results", result, selfId: source.selfId, source, joinTx })} />;
+    return (
+      <Game
+        source={source}
+        onEnd={(result) => setScreen({ name: "results", result, selfId: source.selfId, source, joinTx })}
+        onLeave={() => { source.leave(); setScreen({ name: "lobby" }); }}
+      />
+    );
   }
 
   if (screen.name === "results") {
@@ -25,7 +31,7 @@ export default function App() {
         selfId={screen.selfId}
         source={screen.source}
         joinTx={screen.joinTx}
-        onBack={() => { screen.source.dispose(); setScreen({ name: "lobby" }); }}
+        onBack={() => { screen.source.leave(); setScreen({ name: "lobby" }); }}
       />
     );
   }
